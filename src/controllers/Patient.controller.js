@@ -1,4 +1,5 @@
 const Patient = require("../models/Patient.js");
+const Appointment = require("../models/Appointment.js");
 
 // Listar todos los pacientes
 exports.listPatients = async (req, res) => {
@@ -37,7 +38,15 @@ exports.EditPatient = async (req, res) => {
 exports.DeletePatient = async (req, res) => {
   const patientId = req.params.patientId;
 
-  await Patient.findByIdAndDelete(patientId);
+  const findAppointment = await Appointment.find({ ["patient"]: patientId });
 
-  res.status(200).json({ message: "Paciente eliminado exitosamente" });
+  if (findAppointment.length) {
+    res.status(202).json({
+      message: "El paciente tiene citas asignadas, no se puede borrar",
+    });
+  } else {
+    await Patient.findByIdAndDelete(patientId);
+
+    res.status(200).json({ message: "Paciente eliminado exitosamente" });
+  }
 };

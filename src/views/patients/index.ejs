@@ -123,17 +123,25 @@
     if (confirm("¿Estás seguro de que deseas eliminar este paciente?")) {
       fetch(`/patients/delete/${patientId}`, {
         method: "DELETE",
-      }).then((response) => {
-        if (response.status === 200) {
-          alert("Usuario eliminado correctamente!!!");
+      })
+        .then((res) =>
+          res.json().then((data) => ({ status: res.status, body: data }))
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            alert(response.body.message);
 
-          const patientRow = document.getElementById(`patient-${patientId}`);
+            const patientRow = document.getElementById(`patient-${patientId}`);
 
-          if (patientRow) {
-            patientRow.remove();
+            if (patientRow) {
+              patientRow.remove();
+            }
           }
-        }
-      });
+
+          if (response.status === 202) {
+            alert(response.body.message);
+          }
+        });
     }
   }
 
