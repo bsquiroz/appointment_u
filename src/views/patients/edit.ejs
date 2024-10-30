@@ -1,0 +1,58 @@
+<section>
+  <a href="/patients">Volver</a>
+  <h2 class="text-center">Editando paciente</h2>
+
+  <form action="/patients/edit/<%= patient.id %>" method="POST">
+    <div class="mb-3">
+      <label for="name" class="form-label">Nombre</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        name="name"
+        placeholder="ej: Stiven"
+        value="<%= patient.name %>"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="lastName" class="form-label">Apellido</label>
+      <input
+        type="text"
+        class="form-control"
+        id="lastName"
+        name="lastName"
+        placeholder="ej: Quiroz"
+        value="<%= patient.lastName %>"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Numero de telefono</label>
+      <input
+        type="text"
+        class="form-control"
+        id="phone"
+        name="phone"
+        placeholder="ej: 3012234565"
+        value="<%= patient.phone %>"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="codeEps" class="form-label">Codigo EPS</label>
+      <input
+        type="text"
+        class="form-control"
+        id="codeEps"
+        name="codeEps"
+        placeholder="ej: Sura-001"
+        value="<%= patient.codeEps %>"
+      />
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-warning">Editar usuario</button>
+    </div>
+  </form>
+</section>

@@ -1,0 +1,139 @@
+<h2>Pacientes</h2>
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header">
+      <button
+        class="accordion-button"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#collapseOne"
+        aria-expanded="true"
+        aria-controls="collapseOne"
+      >
+        Agregar un paciente
+      </button>
+    </h2>
+    <div
+      id="collapseOne"
+      class="accordion-collapse collapse"
+      data-bs-parent="#accordionExample"
+    >
+      <div class="accordion-body">
+        <form action="/patients" method="POST">
+          <div class="mb-3">
+            <label for="name" class="form-label">Nombre</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              placeholder="ej: Stiven"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Apellido</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lastName"
+              name="lastName"
+              placeholder="ej: Quiroz"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Numero de telefono</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              name="phone"
+              placeholder="ej: 3012234565"
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="codeEps" class="form-label">Codigo EPS</label>
+            <input
+              type="text"
+              class="form-control"
+              id="codeEps"
+              name="codeEps"
+              placeholder="ej: Sura-001"
+            />
+          </div>
+
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="mt-4">
+  <h2>Listado de pacientes</h2>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Telefono</th>
+        <th>Codigo EPS</th>
+        <th>Op</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% patients.forEach(patient => { %>
+      <tr id="patient-<%= patient._id %>">
+        <td><%= patient.name %></td>
+        <td><%= patient.lastName %></td>
+        <td><%= patient.phone %></td>
+        <td><%= patient.codeEps %></td>
+        <td>
+          <button
+            class="btn btn-warning"
+            onclick="goToEditPatient('<%= patient.id %>')"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger"
+            onclick="deletePatient('<%= patient.id %>')"
+          >
+            Del
+          </button>
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</section>
+
+<script>
+  function deletePatient(patientId) {
+    if (confirm("¿Estás seguro de que deseas eliminar este paciente?")) {
+      fetch(`/patients/delete/${patientId}`, {
+        method: "DELETE",
+      }).then((response) => {
+        if (response.status === 200) {
+          alert("Usuario eliminado correctamente!!!");
+
+          const patientRow = document.getElementById(`patient-${patientId}`);
+
+          if (patientRow) {
+            patientRow.remove();
+          }
+        }
+      });
+    }
+  }
+
+  function goToEditPatient(patientId) {
+    location.href = `/patients/edit/${patientId}`;
+  }
+</script>
