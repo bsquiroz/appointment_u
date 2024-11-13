@@ -1,3 +1,4 @@
+// Representación de un paciente en la DB
 const mongoose = require('mongoose');
 
 const patientSchema = new mongoose.Schema({

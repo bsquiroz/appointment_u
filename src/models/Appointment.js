@@ -1,3 +1,4 @@
+// Representación de una cita en la DB
 const mongoose = require('mongoose');
 
 const appointmentSchema = new mongoose.Schema({
